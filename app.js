@@ -1,7 +1,6 @@
 (() => {
-  const grid = document.getElementById("productGrid");
-  const emptyState = document.getElementById("emptyState");
-  const categoryButtons = document.querySelectorAll(".cat-btn");
+  const gallery = document.getElementById("gallery");
+  const navLinks = document.querySelectorAll(".nav-link");
 
   const CATEGORY_LABELS = {
     audio: "AUDIO",
@@ -10,50 +9,48 @@
     food: "FOOD"
   };
 
-  const ARROW_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>`;
-
-  function renderProducts(category) {
-    const filtered = category === "all"
+  function render(category) {
+    const items = category === "all"
       ? PRODUCTS
       : PRODUCTS.filter(p => p.category === category);
 
-    grid.innerHTML = "";
-    emptyState.style.display = filtered.length ? "none" : "block";
+    gallery.innerHTML = "";
 
-    filtered.forEach((product, i) => {
-      const card = document.createElement("article");
-      card.className = "product-card";
-      card.style.animationDelay = `${i * 0.08}s`;
+    if (!items.length) {
+      gallery.innerHTML = '<div class="empty-state">NO ITEMS YET</div>';
+      return;
+    }
 
-      card.innerHTML = `
-        <div class="product-image-wrap">
-          <img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy">
-          <div class="product-image-overlay"></div>
+    items.forEach((p, i) => {
+      const el = document.createElement("article");
+      el.className = "item";
+      el.style.animationDelay = `${i * 0.1}s`;
+
+      el.innerHTML = `
+        <div class="item-image-wrap">
+          <img class="item-image" src="${p.image}" alt="${p.name}" loading="lazy">
         </div>
-        <div class="product-info">
-          <span class="product-category-tag">${CATEGORY_LABELS[product.category] || product.category}</span>
-          <h2 class="product-name">${product.name}</h2>
-          <p class="product-desc">${product.desc}</p>
-          <div class="product-bottom">
-            <span class="product-price">${product.price}</span>
-            <a class="product-link" href="${product.link}" target="_blank" rel="noopener noreferrer nofollow">
-              BUY ${ARROW_SVG}
-            </a>
-          </div>
+        <div class="item-overlay">
+          <span class="item-category">${CATEGORY_LABELS[p.category] || p.category}</span>
+          <h2 class="item-name">${p.name}</h2>
+          <span class="item-price">\u20A9 ${p.price}</span>
+          <a class="item-cta" href="${p.link}" target="_blank" rel="noopener noreferrer nofollow">
+            SHOP NOW
+          </a>
         </div>
       `;
 
-      grid.appendChild(card);
+      gallery.appendChild(el);
     });
   }
 
-  categoryButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      categoryButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderProducts(btn.dataset.category);
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+      render(link.dataset.category);
     });
   });
 
-  renderProducts("all");
+  render("all");
 })();
