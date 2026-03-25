@@ -16,7 +16,7 @@ const PRODUCTS = [
     price: "189,000",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=750&fit=crop",
     desc: "Studio Monitor Headphones",
-    link: "https://link.coupang.com/YOUR_LINK_HERE"
+    link: "<iframe src="https://coupa.ng/cl3Ker" width="120" height="240" frameborder="0" scrolling="no" referrerpolicy="unsafe-url" browsingtopics></iframe>"
   },
   {
     name: "Scarlett 2i2",
